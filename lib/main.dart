@@ -71,7 +71,15 @@ class HeartEmojiPainter extends CustomPainter {
       ..cubicTo(center.dx - 60, center.dy - 120, center.dx - 110, center.dy - 10, center.dx, center.dy + 60)
       ..close();
 
-    paint.color = type == 'Party Heart' ? const Color(0xFFF48FB1) : const Color(0xFFE91E63);
+    //paint.color = type == 'Party Heart' ? const Color(0xFFF48FB1) : const Color(0xFFE91E63);
+    final heartGradient = LinearGradient(
+      begin: Alignment.centerLeft,
+      end: Alignment.bottomCenter,
+      colors: type == 'Party Heart' 
+        ? [const Color(0xFFF06292), const Color(0xFFFFCDD2)]
+        : [const Color(0xFFF8BBD0), const Color(0xFFD50000)],
+    );
+    paint.shader = heartGradient.createShader(heartPath.getBounds());
     canvas.drawPath(heartPath, paint);
 
     // Face features (starter)
