@@ -65,6 +65,21 @@ class HeartEmojiPainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
     final paint = Paint()..style = PaintingStyle.fill;
 
+    // GLOWING AURA - Only for Party Heart
+    if (type == 'Party Heart') {
+      final auraPaint = Paint()
+        ..color = Colors.pink.withOpacity(0.3)
+        ..style = PaintingStyle.fill;
+
+      final auraPath = Path()
+        ..moveTo(center.dx, center.dy + 70)
+        ..cubicTo(center.dx + 120, center.dy - 5, center.dx + 65, center.dy - 130, center.dx, center.dy - 45)
+        ..cubicTo(center.dx - 65, center.dy - 130, center.dx - 120, center.dy - 5, center.dx, center.dy + 70)
+        ..close();
+
+      canvas.drawPath(auraPath, auraPaint);
+    }
+
     // Heart base
     final heartPath = Path()
       ..moveTo(center.dx, center.dy + 60)
@@ -109,27 +124,20 @@ class HeartEmojiPainter extends CustomPainter {
       
       // CONFETTI - colorful lines and circles SURROUNDING the heart
       final confettiColors = [Colors.yellow, Colors.pink, Colors.blue, Colors.purple, Colors.orange];
-      final random = Random(42); // Seed for consistent randomization
+      final random = Random(42);
       
-      // Loop to create confetti with randomized positions
       for (int i = 0; i < 30; i++) {
         final confettiPaint = Paint()..color = confettiColors[i % 5];
         
-        // Randomize angle (0 to 360 degrees) to surround the heart
         double angle = random.nextDouble() * 2 * pi;
-        
-        // Randomize distance from center (120 to 150 pixels)
         double distance = 120 + random.nextDouble() * 30;
         
-        // Calculate x and y using polar coordinates
         double x = center.dx + distance * cos(angle);
         double y = center.dy + distance * sin(angle);
 
         if(i % 2 == 0){
-          // Small circles
           canvas.drawCircle(Offset(x, y), 4, confettiPaint);
         } else {
-          // Colorful lines
           confettiPaint.strokeWidth = 3;
           confettiPaint.style = PaintingStyle.stroke;
           
